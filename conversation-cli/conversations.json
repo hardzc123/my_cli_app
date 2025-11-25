@@ -1,0 +1,60 @@
+{
+  "start": "welcome",
+  "conversations": {
+    "welcome": {
+      "text": "Welcome to the Adventure! You find yourself at a crossroads in a mysterious forest.",
+      "choices": [
+        {
+          "text": "Take the path to the left (towards the mountain)",
+          "next": "mountain"
+        },
+        {
+          "text": "Take the path to the right (towards the village)",
+          "next": "village"
+        }
+      ]
+    },
+    "mountain": {
+      "text": "You climb the mountain path and discover a cave with a glowing crystal inside.",
+      "choices": [
+        {
+          "text": "Enter the cave and examine the crystal",
+          "next": "crystal"
+        },
+        {
+          "text": "Continue climbing to the peak",
+          "next": "peak"
+        }
+      ]
+    },
+    "village": {
+      "text": "You arrive at a peaceful village. The villagers welcome you warmly.",
+      "choices": [
+        {
+          "text": "Visit the village market",
+          "next": "market"
+        },
+        {
+          "text": "Rest at the inn",
+          "next": "inn"
+        }
+      ]
+    },
+    "crystal": {
+      "text": "The crystal pulses with magical energy. You feel empowered! Your adventure continues...",
+      "choices": []
+    },
+    "peak": {
+      "text": "From the peak, you can see the entire realm. What a magnificent view! Your journey ends here.",
+      "choices": []
+    },
+    "market": {
+      "text": "The market is bustling with traders. You find rare items and make new friends!",
+      "choices": []
+    },
+    "inn": {
+      "text": "You rest well and hear tales of adventure from other travelers. Your story ends here for now.",
+      "choices": []
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "conversation-cli",
+  "version": "1.0.0",
+  "description": "A simple CLI app with conversation branches controlled by JSON",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "conversation-cli": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": ["cli", "conversation", "interactive"],
+  "author": "",
+  "license": "MIT"
+}

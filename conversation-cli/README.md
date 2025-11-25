@@ -5,9 +5,16 @@ A simple, interactive CLI application with conversation branches controlled by a
 ## Features
 
 - Easy-to-modify conversation flows via JSON
-- Interactive command-line interface
+- Interactive command-line interface with colorful output
 - Choice-based branching narratives
 - No external dependencies (uses only Node.js built-ins)
+- Color-coded display for better readability:
+  - Cyan borders and separators
+  - Bold white text for conversations
+  - Green numbered choices
+  - Yellow prompts
+  - Magenta endings
+  - Red error messages
 
 ## Installation
 
@@ -25,6 +32,14 @@ Or make it executable and run directly:
 
 ```bash
 npm start
+```
+
+### Preview Colors
+
+To see how the colors look, run the test script:
+
+```bash
+node test-colors.js
 ```
 
 ## How to Modify Conversations

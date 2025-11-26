@@ -3,6 +3,7 @@
   "conversations": {
     "welcome": {
       "text": "Welcome to the Adventure! You find yourself at a crossroads in a mysterious forest.",
+      "pythonScript": "scripts/greet_player.py",
       "choices": [
         {
           "text": "Take the path to the left (towards the mountain)",
@@ -10,6 +11,24 @@
         },
         {
           "text": "Take the path to the right (towards the village)",
+          "next": "village"
+        },
+        {
+          "text": "Consult the fortune teller",
+          "next": "fortune"
+        }
+      ]
+    },
+    "fortune": {
+      "text": "You find a mysterious fortune teller's tent...",
+      "pythonScript": "scripts/fortune_teller.py",
+      "choices": [
+        {
+          "text": "Continue to the mountain",
+          "next": "mountain"
+        },
+        {
+          "text": "Head to the village instead",
           "next": "village"
         }
       ]
@@ -22,7 +41,25 @@
           "next": "crystal"
         },
         {
+          "text": "Roll dice to test your luck before entering",
+          "next": "dice_challenge"
+        },
+        {
           "text": "Continue climbing to the peak",
+          "next": "peak"
+        }
+      ]
+    },
+    "dice_challenge": {
+      "text": "You decide to test your luck with a roll of the dice...",
+      "pythonScript": "scripts/dice_roller.py",
+      "choices": [
+        {
+          "text": "Enter the cave with confidence",
+          "next": "crystal"
+        },
+        {
+          "text": "Climb to the peak instead",
           "next": "peak"
         }
       ]

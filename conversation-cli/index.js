@@ -4,6 +4,7 @@ import { readFileSync } from 'fs';
 import { createInterface } from 'readline';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { spawn } from 'child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -42,8 +43,33 @@ const rl = createInterface({
   output: process.stdout
 });
 
+// Function to execute Python script using uv
+function executePythonScript(scriptPath, args = []) {
+  return new Promise((resolve, reject) => {
+    const fullPath = join(__dirname, scriptPath);
+
+    // Use 'uv run' to execute Python script with uv-managed environment
+    const pythonProcess = spawn('uv', ['run', fullPath, ...args], {
+      cwd: __dirname,
+      stdio: 'inherit' // This allows the Python script's output to be displayed directly
+    });
+
+    pythonProcess.on('close', (code) => {
+      if (code === 0) {
+        resolve();
+      } else {
+        reject(new Error(`Python script exited with code ${code}`));
+      }
+    });
+
+    pythonProcess.on('error', (error) => {
+      reject(error);
+    });
+  });
+}
+
 // Function to display a conversation and get user choice
-function showConversation(nodeId) {
+async function showConversation(nodeId) {
   const node = data.conversations[nodeId];
 
   if (!node) {
@@ -55,6 +81,15 @@ function showConversation(nodeId) {
   console.log('\n' + colorize('='.repeat(60), colors.cyan));
   console.log(bold(colorize(node.text, colors.white)));
   console.log(colorize('='.repeat(60), colors.cyan));
+
+  // Execute Python script if specified
+  if (node.pythonScript) {
+    try {
+      await executePythonScript(node.pythonScript);
+    } catch (error) {
+      console.log(colorize(`\n⚠️  Error executing Python script: ${error.message}`, colors.red));
+    }
+  }
 
   // Check if this is an ending (no choices)
   if (!node.choices || node.choices.length === 0) {
@@ -70,21 +105,25 @@ function showConversation(nodeId) {
   });
 
   // Get user input
-  rl.question(colorize('\nEnter your choice (number): ', colors.cyan), (answer) => {
+  rl.question(colorize('\nEnter your choice (number): ', colors.cyan), async (answer) => {
     const choiceIndex = parseInt(answer) - 1;
 
     if (isNaN(choiceIndex) || choiceIndex < 0 || choiceIndex >= node.choices.length) {
       console.log(colorize('\n❌ Invalid choice. Please try again.', colors.red));
-      showConversation(nodeId);
+      await showConversation(nodeId);
       return;
     }
 
     const nextNode = node.choices[choiceIndex].next;
-    showConversation(nextNode);
+    await showConversation(nextNode);
   });
 }
 
 // Start the conversation
 console.log('\n' + bold(colorize('🎮 Welcome to Conversation CLI! 🎮', colors.magenta)));
 console.log(colorize('━'.repeat(60), colors.blue) + '\n');
-showConversation(data.start);
+
+// Run the conversation
+(async () => {
+  await showConversation(data.start);
+})();
